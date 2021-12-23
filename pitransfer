@@ -9,9 +9,6 @@ if [ $# -gt 0 ]; then
         echo "Sorry, the arugment(s) supplied are incorrect.">&2
         exit 1
     fi
-else
-    echo "correct"
-    exit 0
 fi
 
 for dir in "$homeDir"/*
@@ -19,11 +16,17 @@ do
   if [ -d "$dir" ];then
     if [ -n "$(ls -A "$homeDir"/$(basename "$dir"))" ]; then
         scp "$homeDir"/$(basename "$dir")/* pi@XXX.XXX.X.XXX:"$piDir"/$(basename "$dir")
+        echo "Successfully transferred files to remote $(basename "$dir") directory on Raspberry Pi."
+
         if [ -n "$1" ]; then
             rm "$homeDir"/$(basename "$dir")/*
+            echo "Successfully deleted files from local $(basename "$dir") directory."
         fi
     else
-        echo "No files in $dir... Checking next directory."
+        echo "No files in $(basename "$dir")... Checking next directory."
     fi
   fi
 done 
+
+echo "Finished!"
+exit 0
