@@ -1,24 +1,34 @@
 #!/bin/bash
 
-# Establishing home directories, these will change obviously depending on your machine
+# Defining source and target directories
 piDir="/home/pi/RetroPie/roms"
 homeDir="/home/toadkarter/Documents/pitransfer"
 
+flag="empty"
+
+# Check if user supplied any arguments
 if [ $# -gt 0 ]; then
-    if [ $1 != "-d" ] || [ $# -ne 1 ]; then
+
+    # Error message if there is more than one argument or if the one argument is invalid
+    if [ $1 != "-d" ] && [ $1 != "-c" ] || [ $# -ne 1 ]; then
         echo "Sorry, the arugment(s) supplied are incorrect.">&2
         exit 1
+    else
+        flag="$1"
     fi
+
 fi
 
 for dir in "$homeDir"/*
 do
   if [ -d "$dir" ];then
     if [ -n "$(ls -A "$homeDir"/$(basename "$dir"))" ]; then
-        scp "$homeDir"/$(basename "$dir")/* pi@XXX.XXX.X.XXX:"$piDir"/$(basename "$dir")
-        echo "Successfully transferred files to remote $(basename "$dir") directory on Raspberry Pi."
+        if [ $flag != "-c" ]; then
+            scp "$homeDir"/$(basename "$dir")/* pi@XXX.XXX.X.XXX:"$piDir"/$(basename "$dir")
+            echo "Successfully transferred files to remote $(basename "$dir") directory on Raspberry Pi."
+        fi
 
-        if [ -n "$1" ]; then
+        if [ "$flag" != "empty" ]; then
             rm "$homeDir"/$(basename "$dir")/*
             echo "Successfully deleted files from local $(basename "$dir") directory."
         fi
