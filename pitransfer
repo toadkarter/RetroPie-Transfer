@@ -4,39 +4,49 @@
 piDir="/home/pi/RetroPie/roms"
 homeDir="/home/toadkarter/Documents/pitransfer"
 
+# Setting flag to "empty" string to avoid unary operator error
 flag="empty"
 
 # Check if user supplied any arguments
 if [ $# -gt 0 ]; then
 
-    # Error message if there is more than one argument or if the one argument is invalid
+    # Error message if there is more than one argument or if both arguments are invalid
     if [ $1 != "-d" ] && [ $1 != "-c" ] || [ $# -ne 1 ]; then
         echo "Sorry, the arugment(s) supplied are incorrect.">&2
         exit 1
     else
+        # If all ok, set flag variable to the relevant 
         flag="$1"
     fi
-
 fi
 
+# Cycling through files in source directory
 for dir in "$homeDir"/*
 do
-  if [ -d "$dir" ];then
-    if [ -n "$(ls -A "$homeDir"/$(basename "$dir"))" ]; then
-        if [ $flag != "-c" ]; then
-            scp "$homeDir"/$(basename "$dir")/* pi@XXX.XXX.X.XXX:"$piDir"/$(basename "$dir")
-            echo "Successfully transferred files to remote $(basename "$dir") directory on Raspberry Pi."
-        fi
+    # Check if file is a sub-directory
+    if [ -d "$dir" ];then
 
-        if [ "$flag" != "empty" ]; then
-            rm "$homeDir"/$(basename "$dir")/*
-            echo "Successfully deleted files from local $(basename "$dir") directory."
+        # Check if there are any files in sub-directory
+        if [ -n "$(ls -A "$homeDir"/$(basename "$dir"))" ]; then
+            
+            # If -c flag not selected, transfer files to Raspberry Pi using SCP to the corresponding target sub-directory 
+            if [ $flag != "-c" ]; then
+                scp "$homeDir"/$(basename "$dir")/* pi@XXX.XXX.X.XXX:"$piDir"/$(basename "$dir")
+                echo "Successfully transferred files to remote $(basename "$dir") directory on Raspberry Pi."
+            fi
+
+            # If either -c or -d flags are selected, delete contents of sub-directory
+            if [ "$flag" != "empty" ]; then
+                rm "$homeDir"/$(basename "$dir")/*
+                echo "Successfully deleted files from local $(basename "$dir") directory."
+            fi
+        else
+            # Print message if sub-directory is empty
+            echo "No files in $(basename "$dir")... Checking next directory."
         fi
-    else
-        echo "No files in $(basename "$dir")... Checking next directory."
     fi
-  fi
 done 
 
+# Quit once looping is finished
 echo "Finished!"
 exit 0
