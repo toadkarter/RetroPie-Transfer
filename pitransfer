@@ -6,4 +6,11 @@ piDir="/home/pi/RetroPie/roms"
 homeDir="/home/toadkarter/Documents/pitransfer"
 
 
-scp "$homeDir"/file.txt pi@XXX.XXX.X.XXX:"$piDir"
+# This is the actual name of the game rom that will be sent
+gameFile="/$1"
+
+# This is will select the relevant subdirectory to which the game will be sent
+gamePlatform="/$2"
+
+# Full command of what is copied to the pi
+scp "$homeDir"/"$gameFile" pi@XXX.XXX.X.X:"$piDir"/"$gamePlatform"
