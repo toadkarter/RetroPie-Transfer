@@ -4,11 +4,27 @@
 piDir="/home/pi/RetroPie/roms"
 homeDir="/home/toadkarter/Documents/pitransfer"
 
+if [ $# -gt 0 ]; then
+
+    if [ $1 != "-d" ] || [ $# -ne 1 ]; then
+        echo "Sorry, the arugment(s) supplied are incorrect.">&2
+        exit 1
+    fi
+
+else
+    echo "correct"
+    exit 0
+fi
+
 for dir in "$homeDir"/*
 do
   if [ -d "$dir" ];then
 
-    scp "$homeDir"/$(basename "$dir")/* pi@192.168.0.242:"$piDir"/$(basename "$dir")
+    scp "$homeDir"/$(basename "$dir")/* pi@XXX.XXX.X.XXX:"$piDir"/$(basename "$dir")
+
+    if [ -n "$1" ]; then
+        rm "$homeDir"/$(basename "$dir")/*
+    fi
 
   fi
-done
+done 
