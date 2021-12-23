@@ -1,12 +1,13 @@
 # RetroPie-Transfer
+
 A small Bash script to efficiently transfer games from a desktop computer to a Raspberry Pi running RetroPie over SSH. 
 
 ## Introduction
-***
+
 I decided to write this script at a time when I did not have easy access to an SD card and was becoming frustrated with having to use the cumbersome SCP command every time I wanted to transfer a new game to my Raspberry Pi. While I am sure that there are many ways to achieve what this script does, such as using FTP (or by buying a cheap SD card reader!), I decided to do it this way to practice my Bash scripting skills. I am somewhat satisfied with my result, and I can say with some certainty that it suits my purposes reasonably well, although I have set out in the last section of this ReadMe some areas of improvement that I might try to implement at some stage. 
 
 ## Set Up
-***
+
 1. This tool is designed for use with [RetroPie](https://retropie.org.uk/download/). Please ensure that you have RetroPie installed (either by using a standalone image or by installing on top of an existing operating system such as Raspbian).
 
 2. Please ensure that SSH is enabled on you Raspberry Pi. Instructions can be found [here](https://retropie.org.uk/docs/SSH/).
@@ -16,12 +17,12 @@ I decided to write this script at a time when I did not have easy access to an S
 4. Place your ROMs into a folder on your local computer, ensuring that it has the same sub-directory structure as the one used by RetroPie. This means that ROMs should be grouped into sub-folders, where each sub-folder name has the name of the console on which those particular ROMs are played. Please ensure that the names of your sub-folders match the ones used by RetroPie. For example, your main folder (which could have any name you want) could have sub-directories entitled "snes", which contain ROMs for SNES games, and "gba", which contains ROMs for GBA games.   
 
 5. Finally, you should make some changes to the pitransfer script specific to your Raspberry Pi as follows:
-* **Line 4**: The directory in which your ROMs are usually stored on your Raspberry Pi should be included in the quotation marks. A sample is included in the script.
+* **Line 4**: The directory in which your ROMs are stored on your Raspberry Pi should be included in the quotation marks. A sample is included in the script.
 * **Line 5**: The directory on your local computer from which you would like to send your ROMS should be included in the quotation marks. A sample is included in the script. 
 * **Line 34**: "pi@XXX.XXX.X.XXX" should be replaced, with "pi" being your Raspberry Pi username, and XXX.XXX.X.XXX being the IP address of your Raspberry Pi (I have censored the sample in the script for security purposes).
 
 ## Using RetroPie-Transfer
-***
+
 1. Once the steps above have been completed, the user just needs to run the script from any directory and the transfer of files will begin. Please note that the user will be asked for their Raspberry Pi password each time that a new sub-folder of ROMs is being transferred.
 
 2. The script allows the user to input one of two optional "flags" as arguments when running the script. 
@@ -39,7 +40,6 @@ I decided to write this script at a time when I did not have easy access to an S
     pitransfer -c
 
 ## Possible Improvements
-***
 
 As mentioned above, I am still a beginner at using Bash, so I am sure that there are much more efficient ways of achieving what I set out to do with this script. Having said that, I do think there are some additional features that can be implemented, which I have set out below, and which I may incorporate at a later stage.
 
