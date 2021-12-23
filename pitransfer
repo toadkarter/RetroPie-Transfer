@@ -1,0 +1,9 @@
+#!/bin/bash
+
+
+# Establishing home directories, these will change obviously depending on your machine
+piDir="/home/pi/RetroPie/roms"
+homeDir="/home/toadkarter/Documents/pitransfer"
+
+
+scp "$homeDir"/file.txt pi@XXX.XXX.X.XXX:"$piDir"
